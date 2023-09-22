@@ -1,10 +1,9 @@
-import { ThemeProvider } from "@/components/theme-provider"
-import { ModeToggle } from "./components/mode-toggle"
+import { ThemeProvider } from '@/components/theme-provider'
+import { ModeToggle } from './components/mode-toggle'
 
-function App() {
+function App (): JSX.Element {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <h1>Hello World!</h1>
       <ModeToggle />
     </ThemeProvider>
   )
