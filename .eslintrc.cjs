@@ -18,6 +18,7 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
-    '@typescript-eslint/consistent-type-assertions': 'off'
+    '@typescript-eslint/consistent-type-assertions': 'off',
+    '@typescript-eslint/no-misused-promises': 'off'
   },
 }
