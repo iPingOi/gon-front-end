@@ -98,7 +98,7 @@ export function SignIn (): JSX.Element {
         </CardContent>
         <CardFooter>
           <span>Ainda não possui uma conta?{' '}
-            <Link className="text-primary underline-offset-4 hover:underline" to="/auth/signup">Criar agora</Link>
+            <Link className="text-primary underline-offset-4 hover:underline" to="/signup">Criar agora</Link>
           </span>
         </CardFooter>
       </Card>
