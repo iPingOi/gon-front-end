@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -12,6 +12,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { api } from '@/services/db'
+import axios from 'axios'
+import { Loader2 } from 'lucide-react'
+import { useToast } from '@/components/ui/use-toast'
 
 export function Dashboard (): JSX.Element {
   const formSchema = z.object({
@@ -29,27 +32,32 @@ export function Dashboard (): JSX.Element {
       title: '',
       packaging: '',
       price: '',
-      productImage: ''
+      productImage: 'https://www.big2be.com.br/products/7896212919888.png'
     }
   })
 
+  const [loading, setLoading] = useState(false)
+
   async function onSubmit (values: z.infer<typeof formSchema>): Promise<void> {
-    // !OBRA DE ARTE PAPAI
+    setLoading(true)
     try {
-      await api.post('/create', {
+      await axios.post('http://localhost:3000/create', {
+        code: values.code,
         title: values.title,
         packaging: values.packaging,
         price: values.price,
         productImage: values.productImage
       })
+      form.reset()
     } catch (error) {
       throw new Error('An error occurred while sending the request!')
     }
+    setLoading(false)
   }
 
-  useEffect(() => {
+  // useEffect(() => {
 
-  }, [])
+  // }, [])
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-background">
@@ -134,7 +142,14 @@ export function Dashboard (): JSX.Element {
                 )}
               />
 
-              <Button className="w-full" type="submit">Enviar encarte!</Button>
+              {
+                loading
+                  ? <Button className="w-full cursor-not-allowed opacity-50">
+                    <Loader2 className="animate-spin mr-1.5" size={16} />
+                    Carregando...
+                  </Button>
+                  : <Button className="w-full" type="submit">Enviar encarte!</Button>
+              }
             </form>
           </Form>
         </CardContent>
