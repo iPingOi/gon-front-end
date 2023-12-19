@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -11,10 +11,10 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { api } from '@/services/db'
+// import { api } from '@/services/db'
 import axios from 'axios'
 import { Loader2 } from 'lucide-react'
-import { useToast } from '@/components/ui/use-toast'
+// import { useToast } from '@/components/ui/use-toast'
 
 export function Dashboard (): JSX.Element {
   const formSchema = z.object({
@@ -54,10 +54,6 @@ export function Dashboard (): JSX.Element {
     }
     setLoading(false)
   }
-
-  // useEffect(() => {
-
-  // }, [])
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-background">
