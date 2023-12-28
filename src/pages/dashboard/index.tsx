@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -11,9 +11,10 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-// import { api } from '@/services/db'
+import { api } from '@/services/api'
 import axios from 'axios'
-import { Loader2 } from 'lucide-react'
+import { ArrowUpIcon, Loader2 } from 'lucide-react'
+import console, { log } from 'console'
 // import { useToast } from '@/components/ui/use-toast'
 
 export function Dashboard (): JSX.Element {
@@ -28,20 +29,21 @@ export function Dashboard (): JSX.Element {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      code: '',
-      title: '',
-      packaging: '',
-      price: '',
+      code: '4002',
+      title: 'ovos',
+      packaging: 'zovos',
+      price: '799,90',
       productImage: 'https://www.big2be.com.br/products/7896212919888.png'
     }
   })
 
   const [loading, setLoading] = useState(false)
+  const [product, setProduct] = useState([])
 
   async function onSubmit (values: z.infer<typeof formSchema>): Promise<void> {
     setLoading(true)
     try {
-      await axios.post('http://localhost:3000/create', {
+      await api.post('/create', {
         code: values.code,
         title: values.title,
         packaging: values.packaging,
@@ -54,6 +56,10 @@ export function Dashboard (): JSX.Element {
     }
     setLoading(false)
   }
+
+  useEffect(() => {
+
+  }, [])
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-background">
