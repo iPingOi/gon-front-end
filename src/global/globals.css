@@ -27,6 +27,11 @@
     --radius: 0.5rem;
   }
 
+    /* --background: 20, 8%, 8%; */
+
+    /* --background: 20 14.3% 4.1%; */
+
+
   .dark {
     --background: 20 14.3% 4.1%;
     --foreground: 60 9.1% 97.8%;

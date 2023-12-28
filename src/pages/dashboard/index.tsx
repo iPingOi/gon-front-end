@@ -12,33 +12,31 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { api } from '@/services/api'
-import axios from 'axios'
-import { ArrowUpIcon, Loader2 } from 'lucide-react'
-import console, { log } from 'console'
-// import { useToast } from '@/components/ui/use-toast'
+import { Loader2 } from 'lucide-react'
+import { useToast } from '@/components/ui/use-toast'
 
 export function Dashboard (): JSX.Element {
   const formSchema = z.object({
-    code: z.string(),
-    title: z.string(),
-    packaging: z.string(),
-    price: z.string(),
+    code: z.string().max(5),
+    title: z.string().max(39),
+    packaging: z.string().max(16),
+    price: z.string().max(7),
     productImage: z.string()
   })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      code: '4002',
-      title: 'ovos',
-      packaging: 'zovos',
-      price: '799,90',
-      productImage: 'https://www.big2be.com.br/products/7896212919888.png'
+      code: '',
+      title: '',
+      packaging: '',
+      price: '',
+      productImage: ''
     }
   })
 
   const [loading, setLoading] = useState(false)
-  const [product, setProduct] = useState([])
+  const [product, setProduct] = useState<string>()
 
   async function onSubmit (values: z.infer<typeof formSchema>): Promise<void> {
     setLoading(true)
@@ -58,8 +56,23 @@ export function Dashboard (): JSX.Element {
   }
 
   useEffect(() => {
+    if (!product) return
+    async function RequestData (): Promise<void> {
+      try {
+        const dataProduct = await api.get(`/product/${product}`)
+        console.log(dataProduct.data)
 
-  }, [])
+        form.setValue('title', dataProduct.data.name)
+        form.setValue('packaging', dataProduct.data.packaging)
+        form.setValue('productImage', dataProduct.data.image)
+      } catch (err) {
+
+      }
+    }
+    void RequestData()
+  }, [form, product])
+
+  const { toast } = useToast()
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-background">
@@ -81,7 +94,7 @@ export function Dashboard (): JSX.Element {
                   <FormItem>
                     <FormLabel>Código do produto</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="68370" {...field} />
+                      <Input type="text" placeholder="68370" {...field} onBlur={ () => { setProduct(() => form.getValues().code) } }/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -153,6 +166,16 @@ export function Dashboard (): JSX.Element {
                   : <Button className="w-full" type="submit">Enviar encarte!</Button>
               }
             </form>
+              <Button
+                onClick={() => {
+                  toast({
+                    title: 'Scheduled: Catch up',
+                    description: 'Friday, February 10, 2023 at 5:57 PM'
+                  })
+                }}
+              >
+              Show Toast
+            </Button>
           </Form>
         </CardContent>
       </Card>
