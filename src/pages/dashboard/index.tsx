@@ -60,7 +60,7 @@ export function Dashboard(): JSX.Element {
     async function RequestData(): Promise<void> {
       try {
         const dataProduct = await api.get(`/product/${product}`)
-        console.log(dataProduct.data)
+        console.log(dataProduct)
 
         form.setValue('title', dataProduct.data.name)
         form.setValue('packaging', dataProduct.data.packaging)
