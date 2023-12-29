@@ -15,7 +15,7 @@ import { api } from '@/services/api'
 import { Loader2 } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 
-export function Dashboard (): JSX.Element {
+export function Dashboard(): JSX.Element {
   const formSchema = z.object({
     code: z.string().max(5),
     title: z.string().max(39),
@@ -38,7 +38,7 @@ export function Dashboard (): JSX.Element {
   const [loading, setLoading] = useState(false)
   const [product, setProduct] = useState<string>()
 
-  async function onSubmit (values: z.infer<typeof formSchema>): Promise<void> {
+  async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     setLoading(true)
     try {
       await api.post('/create', {
@@ -57,7 +57,7 @@ export function Dashboard (): JSX.Element {
 
   useEffect(() => {
     if (!product) return
-    async function RequestData (): Promise<void> {
+    async function RequestData(): Promise<void> {
       try {
         const dataProduct = await api.get(`/product/${product}`)
         console.log(dataProduct.data)
@@ -66,7 +66,7 @@ export function Dashboard (): JSX.Element {
         form.setValue('packaging', dataProduct.data.packaging)
         form.setValue('productImage', dataProduct.data.image)
       } catch (err) {
-
+        console.log(err)
       }
     }
     void RequestData()
@@ -76,7 +76,7 @@ export function Dashboard (): JSX.Element {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-background">
-      <Card className="w-[400px] border-border">
+      <Card className="w-[600px] border-border">
         <CardHeader className="relative">
           <div className="absolute right-3 top-3">
             <ModeToggle />
@@ -94,7 +94,7 @@ export function Dashboard (): JSX.Element {
                   <FormItem>
                     <FormLabel>Código do produto</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="68370" {...field} onBlur={ () => { setProduct(() => form.getValues().code) } }/>
+                      <Input type="text" placeholder="68370" {...field} onBlur={() => { setProduct(() => form.getValues().code) }} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -166,14 +166,14 @@ export function Dashboard (): JSX.Element {
                   : <Button className="w-full" type="submit">Enviar encarte!</Button>
               }
             </form>
-              <Button
-                onClick={() => {
-                  toast({
-                    title: 'Scheduled: Catch up',
-                    description: 'Friday, February 10, 2023 at 5:57 PM'
-                  })
-                }}
-              >
+            <Button
+              onClick={() => {
+                toast({
+                  title: 'Scheduled: Catch up',
+                  description: 'Friday, February 10, 2023 at 5:57 PM'
+                })
+              }}
+            >
               Show Toast
             </Button>
           </Form>
